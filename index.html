@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raupov — Софт и Каталог</title>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raupov — Софт и Каталог</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #f0f0f0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      transition: background 1s ease;
+    }
+
+    #particles-js, #hacker-background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+    }
+
+    #hacker-background {
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,255,0,0.05) 0px,
+        rgba(0,255,0,0.05) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    h1 {
+      font-size: 3em;
+      margin: 40px 0 20px;
+      color: #3b8cff;
+      text-shadow: 0 0 10px rgba(59, 140, 255, 0.7);
+      position: relative;
+    }
+
+    .nickname-animation {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3em;
+      color: #fff;
+      background: linear-gradient(90deg, #3b8cff, #ff4136, #3b8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      animation: fadeOut 5s ease-out forwards, glow 1s infinite alternate;
+      z-index: 1000;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, -40px); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff; }
+      to { text-shadow: 0 0 20px #3b8cff, 0 0 30px #ff4136; }
+    }
+
+    .profile-photo {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 4px solid #3b8cff;
+      object-fit: cover;
+      margin: 20px;
+      cursor: pointer;
+      transition: 0.5s ease;
+      box-shadow: 0 0 20px rgba(59, 140, 255, 0.5);
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 30px rgba(255, 65, 54, 0.6);
+    }
+
+    .about {
+      max-width: 700px;
+      font-size: 1.2em;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+      margin-bottom: 30px;
+    }
+
+    .catalog-toggle {
+      padding: 12px 25px;
+      font-size: 1.2em;
+      border-radius: 20px;
+      background: transparent;
+      color: #3b8cff;
+      border: 2px solid #3b8cff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .catalog-toggle:hover {
+      background: #3b8cff;
+      color: #fff;
+    }
+
+    .catalog {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .catalog.active {
+      display: grid;
+    }
+
+    .product {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 10px rgba(59, 140, 255, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover {
+      transform: scale(1.03);
+    }
+
+    .product h2 {
+      color: #ff6347;
+      margin-bottom: 10px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 40px 0;
+    }
+
+    .btn {
+      background: #3b8cff;
+      color: #fff;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 30px;
+      transition: 0.3s ease;
+      text-decoration: none;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(59, 140, 255, 0.3);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(255,255,255,0.03);
+      width: 100%;
+    }
+
+    footer .btn {
+      background: transparent;
+      border: 2px solid #3b8cff;
+      color: #3b8cff;
+    }
+
+    footer .btn:hover {
+      background: #3b8cff;
+      color: #fff;
+    }
+
+    @media(max-width: 768px) {
+      .btn { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div id="hacker-background"></div>
+
+  <h1 id="main-title">Raupov</h1>
+
+  <img src="https://i.ibb.co/KzwKv1PQ/IMG-1503.jpg" alt="Raupov" class="profile-photo" id="profile-photo" />
+
+  <div class="about">
+    🚀 Raupov — топовые решения, мощный софт и актуальные идеи. Всё для твоего уровня.
+  </div>
+
+  <button class="catalog-toggle" id="catalog-toggle">Открыть каталог</button>
+
+  <div class="catalog" id="catalog">
+    <div class="product">
+      <h2>Soft iOS</h2>
+      <p>🔥 Софт на iOS: AimDrag, WH и другое. Без банов. Стоимость — 800₽ / 5000₸. Пиши в Telegram!</p>
+    </div>
+    <div class="product">
+      <h2>Panel PC</h2>
+      <p>🎯 Панель с читами для ПК. Настройка под тебя. Цена индивидуальна. Telegram — для связи.</p>
+    </div>
+  </div>
+
+  <div class="links">
+    <a class="btn" href="https://t.me/raupov2k3" target="_blank">Связаться с Raupov</a>
+    <a class="btn" href="https://t.me/showcase4" target="_blank">Telegram-канал</a>
+    <a class="btn" href="https://t.me/z4xshow" target="_blank">Отзывы</a>
+  </div>
+
+  <footer>
+    <h2>Отзывы клиентов</h2>
+    <a class="btn" href="https://t.me/z4xshow" target="_blank">Посмотреть отзывы</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 40, density: { enable: true, value_area: 800 } },
+        color: { value: ['#3b8cff', '#ff4136'] },
+        opacity: { value: 0.3 },
+        size: { value: 2 },
+        line_linked: { enable: true, distance: 150, color: '#fff', opacity: 0.1, width: 1 },
+        move: { enable: true, speed: 1 }
+      },
+      interactivity: {
+        events: { onhover: { enable: false }, onclick: { enable: false } },
+        modes: {}
+      },
+      retina_detect: true
+    });
+
+    const toggleBtn = document.getElementById('catalog-toggle');
+    const catalog = document.getElementById('catalog');
+    toggleBtn.addEventListener('click', () => {
+      catalog.classList.toggle('active');
+      toggleBtn.textContent = catalog.classList.contains('active') ? 'Скрыть каталог' : 'Открыть каталог';
+    });
+
+    const buttons = document.querySelectorAll('.btn');
+    const colors = ['#3b8cff', '#ff7675', '#74b9ff', '#81ecec', '#a29bfe'];
+    let colorIndex = 0;
+
+    setInterval(() => {
+      const color = colors[colorIndex % colors.length];
+      buttons.forEach(btn => btn.style.background = color);
+      colorIndex++;
+    }, 500);
+
+    const profile = document.getElementById('profile-photo');
+    let bgState = false;
+    let lastTap = 0;
+
+    profile.addEventListener('click', () => {
+      const now = new Date().getTime();
+      const tapLength = now - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        showNicknameAnimation();
+      } else {
+        bgState = !bgState;
+        document.body.style.background = bgState ? "#111920" : "#0a0a0a";
+      }
+      lastTap = now;
+    });
+
+    function showNicknameAnimation() {
+      const anim = document.createElement('div');
+      anim.textContent = 'Raupov';
+      anim.className = 'nickname-animation';
+      document.body.appendChild(anim);
+      setTimeout(() => anim.remove(), 5000);
+    }
+  </script>
+</body>
+</html>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #f0f0f0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      transition: background 1s ease;
+    }
+
+    #particles-js, #hacker-background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+    }
+
+    #hacker-background {
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,255,0,0.05) 0px,
+        rgba(0,255,0,0.05) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    h1 {
+      font-size: 3em;
+      margin: 40px 0 20px;
+      color: #3b8cff;
+      text-shadow: 0 0 10px rgba(59, 140, 255, 0.7);
+      position: relative;
+    }
+
+    .nickname-animation {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3em;
+      color: #fff;
+      background: linear-gradient(90deg, #3b8cff, #ff4136, #3b8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      animation: fadeOut 5s ease-out forwards, glow 1s infinite alternate;
+      z-index: 1000;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, -40px); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff; }
+      to { text-shadow: 0 0 20px #3b8cff, 0 0 30px #ff4136; }
+    }
+
+    .profile-photo {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 4px solid #3b8cff;
+      object-fit: cover;
+      margin: 20px;
+      cursor: pointer;
+      transition: 0.5s ease;
+      box-shadow: 0 0 20px rgba(59, 140, 255, 0.5);
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 30px rgba(255, 65, 54, 0.6);
+    }
+
+    .about {
+      max-width: 700px;
+      font-size: 1.2em;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+      margin-bottom: 30px;
+    }
+
+    .catalog-toggle {
+      padding: 12px 25px;
+      font-size: 1.2em;
+      border-radius: 20px;
+      background: transparent;
+      color: #3b8cff;
+      border: 2px solid #3b8cff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .catalog-toggle:hover {
+      background: #3b8cff;
+      color: #fff;
+    }
+
+    .catalog {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .catalog.active {
+      display: grid;
+    }
+
+    .product {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 10px rgba(59, 140, 255, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover {
+      transform: scale(1.03);
+    }
+
+    .product h2 {
+      color: #ff6347;
+      margin-bottom: 10px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 40px 0;
+    }
+
+    .btn {
+      background: #3b8cff;
+      color: #fff;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 30px;
+      transition: 0.3s ease;
+      text-decoration: none;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(59, 140, 255, 0.3);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(255,255,255,0.03);
+      width: 100%;
+    }
+
+    footer .btn {
+      background: transparent;
+      border: 2px solid #3b8cff;
+      color: #3b8cff;
+    }
+
+    footer .btn:hover {
+      background: #3b8cff;
+      color: #fff;
+    }
+
+    @media(max-width: 768px) {
+      .btn { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div id="hacker-background"></div>
+
+  <h1 id="main-title">Raupov</h1>
+
+  <img src="https://i.ibb.co/KzwKv1PQ/IMG-1503.jpg" alt="Raupov" class="profile-photo" id="profile-photo" />
+
+  <div class="about">
+    🚀 Raupov — топовые решения, мощный софт и актуальные идеи. Всё для твоего уровня.
+  </div>
+
+  <button class="catalog-toggle" id="catalog-toggle">Открыть каталог</button>
+
+  <div class="catalog" id="catalog">
+    <div class="product">
+      <h2>Soft iOS</h2>
+      <p>🔥 Софт на iOS: AimDrag, WH и другое. Без банов. Стоимость — 800₽ / 5000₸. Пиши в Telegram!</p>
+    </div>
+    <div class="product">
+      <h2>Panel PC</h2>
+      <p>🎯 Панель с читами для ПК. Настройка под тебя. Цена индивидуальна. Telegram — для связи.</p>
+    </div>
+  </div>
+
+  <div class="links">
+    <a class="btn" href="https://t.me/raupov2k3" target="_blank">Связаться с Raupov</a>
+    <a class="btn" href="https://t.me/showcase4" target="_blank">Telegram-канал</a>
+    <a class="btn" href="https://t.me/z4xshow" target="_blank">Отзывы</a>
+  </div>
+
+  <footer>
+    <h2>Отзывы клиентов</h2>
+    <a class="btn" href="https://t.me/z4xshow" target="_blank">Посмотреть отзывы</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 40, density: { enable: true, value_area: 800 } },
+        color: { value: ['#3b8cff', '#ff4136'] },
+        opacity: { value: 0.3 },
+        size: { value: 2 },
+        line_linked: { enable: true, distance: 150, color: '#fff', opacity: 0.1, width: 1 },
+        move: { enable: true, speed: 1 }
+      },
+      interactivity: {
+        events: { onhover: { enable: false }, onclick: { enable: false } },
+        modes: {}
+      },
+      retina_detect: true
+    });
+
+    const toggleBtn = document.getElementById('catalog-toggle');
+    const catalog = document.getElementById('catalog');
+    toggleBtn.addEventListener('click', () => {
+      catalog.classList.toggle('active');
+      toggleBtn.textContent = catalog.classList.contains('active') ? 'Скрыть каталог' : 'Открыть каталог';
+    });
+
+    const buttons = document.querySelectorAll('.btn');
+    const colors = ['#3b8cff', '#ff7675', '#74b9ff', '#81ecec', '#a29bfe'];
+    let colorIndex = 0;
+
+    setInterval(() => {
+      const color = colors[colorIndex % colors.length];
+      buttons.forEach(btn => btn.style.background = color);
+      colorIndex++;
+    }, 500);
+
+    const profile = document.getElementById('profile-photo');
+    let bgState = false;
+    let lastTap = 0;
+
+    profile.addEventListener('click', () => {
+      const now = new Date().getTime();
+      const tapLength = now - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        showNicknameAnimation();
+      } else {
+        bgState = !bgState;
+        document.body.style.background = bgState ? "#111920" : "#0a0a0a";
+      }
+      lastTap = now;
+    });
+
+    function showNicknameAnimation() {
+      const anim = document.createElement('div');
+      anim.textContent = 'Raupov';
+      anim.className = 'nickname-animation';
+      document.body.appendChild(anim);
+      setTimeout(() => anim.remove(), 5000);
+    }
+  </script>
+</body>
+</html>
